@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
-import { collection, query, getDocs } from "firebase/firestore";
+import { onMounted, reactive, ref } from 'vue';
+import { collection, query, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from './firebase/config';
 
 interface Song {
@@ -10,17 +10,33 @@ interface Song {
   year: number
 }
 
-const songs: Song[] = reactive([])
+// const songs: Song[] = reactive([])
+const songs  = ref<Song[]>([])
 
 onMounted(async () => {
   const q = query(collection(db, "songs"));
 
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    songs.push({
-      id: doc.id,
-      ...doc.data(),
-    } as Song) 
+  // простое подключение
+  // const querySnapshot = await getDocs(q);
+  // querySnapshot.forEach((doc) => {
+  //   songs.push({
+  //     id: doc.id,
+  //     ...doc.data(),
+  //   } as Song) 
+  // });
+
+  
+  // для работы обновлений в реальном времени
+  onSnapshot(q, (querySnapshot) => {
+    const tempSongs:Song[] = []
+
+    querySnapshot.forEach((doc) => {
+      tempSongs.push({
+        id: doc.id,
+        ...doc.data(),
+      } as Song)
+    });
+    songs.value = tempSongs
   });
 })
 
