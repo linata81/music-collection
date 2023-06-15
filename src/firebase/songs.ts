@@ -1,11 +1,13 @@
 import { db } from '../firebase/config';
-import { collection, query, onSnapshot } from "firebase/firestore";
+import { collection, query, onSnapshot,  addDoc } from "firebase/firestore";
 import {Song} from "../types"
 import { Ref } from 'vue';
 
+const DB_NAME = 'songs'
+
 export const getSongs = (songs: Ref<Song[]>) => {
   
-  const q = query(collection(db, "songs"));
+  const q = query(collection(db, DB_NAME));
 
   // простое подключение
   // const querySnapshot = await getDocs(q);
@@ -28,5 +30,13 @@ export const getSongs = (songs: Ref<Song[]>) => {
       } as Song)
     });
     songs.value = tempSongs
+  });
+}
+
+export const addSongs =async (song:Song) => {
+  await addDoc(collection(db, DB_NAME), {
+    title: song.title,
+    artist: song.artist,
+    year: song.year
   });
 }
