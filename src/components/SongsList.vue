@@ -28,4 +28,8 @@ defineProps<{songs: Song[], isLoading: boolean}>()
   </v-card>
 </template>
 
-<style scoped></style>
+<style scoped>
+.v-card {
+  margin-bottom: 20px;
+}
+</style>
