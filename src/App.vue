@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import {Song} from "./types"
 import { getSongs } from './firebase/songs'
 import SongList from './components/SongsList.vue'
+import SongsPlayer from './components/SongsPlayer.vue'
 
 
 // const songs: Song[] = reactive([])
@@ -16,6 +17,7 @@ onMounted(async () => {
 
 <template>
   <main>
+    <SongsPlayer/>
     <SongList :songs="songs"/>
   </main>
 </template>

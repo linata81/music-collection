@@ -18,4 +18,4 @@ defineProps<{songs: Song[]}>()
   </v-card>
 </template>
 
-<style></style>
+<style scoped></style>
