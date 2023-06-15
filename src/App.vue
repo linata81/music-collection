@@ -8,6 +8,7 @@ import SongsPlayer from './components/SongsPlayer.vue'
 
 // const songs: Song[] = reactive([])
 const songs  = ref<Song[]>([])
+const isLoading = ref(false)
 
   const playingSongs: Song[] = [
   {
@@ -37,7 +38,7 @@ const songs  = ref<Song[]>([])
 ]
 
 onMounted(async () => {
-  getSongs(songs)
+  getSongs(songs, isLoading)
 })
 
 const addToFavourite = async (songId: string) => {
@@ -51,7 +52,7 @@ const addToFavourite = async (songId: string) => {
 <template>
   <main>
     <SongsPlayer :songs="playingSongs" @add-to-favorite="addToFavourite"/>
-    <SongList :songs="songs"/>
+    <SongList :songs="songs" :is-loading="isLoading"/>
   </main>
 </template>
 

@@ -5,8 +5,8 @@ import { Ref } from 'vue';
 
 const DB_NAME = 'songs'
 
-export const getSongs = (songs: Ref<Song[]>) => {
-  
+export const getSongs = (songs: Ref<Song[]>, isLoading: Ref<boolean>) => {
+  isLoading.value = true
   const q = query(collection(db, DB_NAME));
 
   // простое подключение
@@ -21,6 +21,7 @@ export const getSongs = (songs: Ref<Song[]>) => {
   
   // для работы обновлений в реальном времени
   onSnapshot(q, (querySnapshot) => {
+        
     const tempSongs:Song[] = []
 
     querySnapshot.forEach((doc) => {
@@ -30,6 +31,7 @@ export const getSongs = (songs: Ref<Song[]>) => {
       } as Song)
     });
     songs.value = tempSongs
+    isLoading.value = false
   });
 }
 
